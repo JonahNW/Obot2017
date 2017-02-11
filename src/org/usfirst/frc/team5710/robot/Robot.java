@@ -121,7 +121,7 @@ public class Robot extends IterativeRobot {
 		
 		boolean winchUp = oi.driveStick.getRawButton(6);
 		boolean winchDwn = oi.driveStick.getRawButton(4);
-		double winchSpeed = (oi.driveStick.getThrottle() + 1) / -2; //Negated
+		double winchSpeed = (oi.driveStick.getThrottle() - 1) / 2; //Negated
 		manipulators.climb(winchUp, winchDwn, winchSpeed);
 		
 		Timer.delay(0.005); //Prevents the program from hogging cpu cycles.

@@ -27,7 +27,7 @@ public class Drive extends Subsystem {
 	
 	public void mecanumCartesian(double x, double y, double z, int gyroAngle){
 		y = -y; //negate y axis
-		z = -.75 * z; //negate z axis
+		z = .75 * z; //Modify z axis
 		x = (Math.abs(x) / x) * x * x;
 		y = (Math.abs(y) / y) * y * y; //squaring the input axis increases sensitivity to low speeds.
 		z = (Math.abs(z) / z) * z * z;
@@ -39,10 +39,10 @@ public class Drive extends Subsystem {
 	    x = normalized[0];
 	    y = normalized[1];
 	    z = normalized[2];
-	    double fLMotor = Drive.setDeadBand(-(x + y + z)); //Is inverted
-	    double fRMotor = Drive.setDeadBand(-x + y - z);
-	    double rLMotor = Drive.setDeadBand(-(-x + y + z)); //Is inverted
-	    double rRMotor = Drive.setDeadBand(x + y - z);
+	    double fLMotor = Drive.setDeadBand((x + y + z)); //Is inverted
+	    double fRMotor = Drive.setDeadBand(-(-x + y - z));
+	    double rLMotor = Drive.setDeadBand((-x + y + z)); //Is inverted
+	    double rRMotor = Drive.setDeadBand(-(x + y - z));
 	    
 	    RobotMap.frontLeftMotor.setSpeed(fLMotor);
 	    RobotMap.frontRightMotor.setSpeed(fRMotor);
