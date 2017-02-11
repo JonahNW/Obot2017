@@ -30,20 +30,7 @@ public class Manipulators extends Subsystem {
 		
 	}
 	
-	public void reverse(boolean a){
-		if(a == true && RobotMap.launchMotor.getSpeed() > .1){
-			RobotMap.launchMotor.setSpeed(-.5);
-		}
-		if(a == true && RobotMap.launchControl.getSpeed() > .1){
-			RobotMap.launchControl.setSpeed(-.5);
-		}
-		if(a == true && RobotMap.winchMotor.getSpeed() > .1){
-			RobotMap.winchMotor.setSpeed(-.5);
-		}
-		if(a == true && RobotMap.loadMotor.getSpeed() > .1){
-			RobotMap.loadMotor.setSpeed(-.5);
-		}
-	}
+	public void spitFuel(boolean spit, boolean reverse)
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

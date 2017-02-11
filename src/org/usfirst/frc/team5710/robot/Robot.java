@@ -24,7 +24,7 @@ public class Robot extends IterativeRobot {
 	Drive myRobot = new Drive(); //Create the entity 'myRobot' through the Drive class.
 	public static OI oi;
 	Manipulators manipulators = new Manipulators();
-	Timer timer = new Timer(); //Create Timer for autonomous program.
+	Autonomous auto = new Autonomous();
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -74,8 +74,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
-		timer.reset();
-		timer.start();
+		auto.init();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -95,6 +94,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		auto.moveForward();
 	}
 
 	@Override
