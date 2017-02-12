@@ -1,16 +1,15 @@
 package org.usfirst.frc.team5710.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc.team5710.robot.commands.ExampleCommand;
 import org.usfirst.frc.team5710.robot.subsystems.*;
+import org.usfirst.frc.team5710.robot.subsystems.manipulators.*;
 
 
 /**
@@ -21,9 +20,9 @@ import org.usfirst.frc.team5710.robot.subsystems.*;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	Drive myRobot = new Drive(); //Create the entity 'myRobot' through the Drive class.
-	public static OI oi;
-	Manipulators manipulators = new Manipulators();
+	Drive robotDrive = new Drive(); //Creates the entity 'robotDrive' through the Drive class.
+	public static OI oi; //Creates the entity 'oi' (operator interface) through the OI class.
+	Manipulator manipulators = new Manipulator(); //I think you get it now...
 	Autonomous auto = new Autonomous();
 
 	Command autonomousCommand;
@@ -49,14 +48,16 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		myRobot.init();
+		robotDrive.stopMoving();
+		manipulators.stopManipulators();
 		
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		myRobot.init();
+		robotDrive.stopMoving();
+		manipulators.stopManipulators();
 		
 	}
 
@@ -75,6 +76,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
 		auto.init();
+		robotDrive.stopMoving();
+		manipulators.init();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -105,6 +108,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+		manipulators.init();
 	}
 
 	/**
@@ -113,16 +117,21 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		Manipulators.init();
-		double xAxis = oi.driveStick.getX();
-		double yAxis = oi.driveStick.getY();
-		double zAxis = oi.driveStick.getZ();
-		myRobot.mecanumCartesian(xAxis, yAxis, zAxis, 0);
+		oi.getSetData();
+		//double xAxis = oi.driveStick.getX();
+		//double yAxis = oi.driveStick.getY();
+		//double zAxis = oi.driveStick.getZ();
+		robotDrive.mecanumCartesian(oi.xAxis, oi.yAxis, oi.zAxis, 0);
 		
-		boolean winchUp = oi.driveStick.getRawButton(6);
-		boolean winchDwn = oi.driveStick.getRawButton(4);
-		double winchSpeed = (oi.driveStick.getThrottle() - 1) / 2; //Negated
-		manipulators.climb(winchUp, winchDwn, winchSpeed);
+		//boolean winchUp = oi.driveStick.getRawButton(6);
+		//boolean winchDwn = oi.driveStick.getRawButton(4);
+		//double winchSpeed = (oi.driveStick.getThrottle() - 1) / 2; //Negated
+		Winch.climb(oi.winchUp, oi.winchDwn, oi.winchSpeed);
+		
+		//boolean spit = oi.driveStick.getRawButton(1);
+		//boolean reverse = oi.driveStick.getRawButton(11);
+		FuelSpitter.spitFuel(oi.spit, oi.reverse);
+		
 		
 		Timer.delay(0.005); //Prevents the program from hogging cpu cycles.
 	}

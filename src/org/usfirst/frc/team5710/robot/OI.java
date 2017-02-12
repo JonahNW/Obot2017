@@ -1,10 +1,6 @@
 package org.usfirst.frc.team5710.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.*;
-
-import org.usfirst.frc.team5710.robot.commands.ExampleCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -12,16 +8,33 @@ import org.usfirst.frc.team5710.robot.commands.ExampleCommand;
  */
 public class OI {
 	Joystick driveStick = new Joystick(0);
+	//Joystick Axes
+	double xAxis;
+	double yAxis;
+	double zAxis;
+	double winchSpeed;
+	//Joystick Buttons
+	boolean winchUp;
+	boolean winchDwn;
+	boolean spit;
+	boolean reverse;
+	
+	
+	public void getSetData(){
+		xAxis = driveStick.getX();
+		yAxis = driveStick.getY();
+		zAxis = driveStick.getZ();
 		
-	double winchSpeed = driveStick.getThrottle();
-	Button winchUp = new JoystickButton(driveStick, 6);
-	Button winchDown = new JoystickButton(driveStick, 4);
-	Button reverse = new JoystickButton(driveStick, 11);
-	Button loadIn = new JoystickButton(driveStick, 2);
-	Button launch = new JoystickButton(driveStick, 1);
-	
-	
+		winchSpeed = driveStick.getThrottle();
+		winchUp = driveStick.getRawButton(6);
+		winchDwn = driveStick.getRawButton(4);
+		spit = driveStick.getRawButton(1);
+		reverse = driveStick.getRawButton(11);
+		
+		//This should be included in any loop that is running functions using the above variables.
+		//This gathers new data from the joystick every time the function is called.
 	}
+}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.

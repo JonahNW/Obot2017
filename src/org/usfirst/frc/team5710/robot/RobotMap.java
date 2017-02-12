@@ -22,6 +22,7 @@ public class RobotMap {
 	public static VictorSP launchControl = new VictorSP(5);
 	public static TalonSRX winchMotor = new TalonSRX(6);
 	public static VictorSP loadMotor = new VictorSP(7);
+	public static TalonSRX spitMotor = new TalonSRX(8);
 	
 	//Servos
 	public static Servo cameraServo = new Servo(8);
